@@ -10,6 +10,7 @@ import {
   LinearProgress,
   Stack,
   Typography,
+  useTheme,
 } from '@mui/material'
 import { useMemo } from 'react'
 import { LeadStatusChip } from '@/components/leads/LeadStatusChip'
@@ -22,6 +23,7 @@ import { formatCurrency } from '@/utils/formatCurrency'
 import { getLeadSubtitle } from '@/utils/lead'
 
 export function DashboardPage() {
+  const theme = useTheme()
   const { data: leads = [], isLoading } = useLeads()
 
   const stats = useMemo(() => {
@@ -60,7 +62,7 @@ export function DashboardPage() {
             value={String(stats.total)}
             subtitle="Cadastrados no CRM"
             icon={<PeopleAltOutlinedIcon />}
-            color="#1565C0"
+            color={theme.palette.primary.main}
           />
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
@@ -69,7 +71,7 @@ export function DashboardPage() {
             value={formatCurrency(stats.pipelineValue, { maximumFractionDigits: 0 }) ?? '—'}
             subtitle="Valor em negociação"
             icon={<AttachMoneyOutlinedIcon />}
-            color="#00897B"
+            color={theme.palette.secondary.main}
           />
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
@@ -78,7 +80,7 @@ export function DashboardPage() {
             value={formatCurrency(stats.wonValue, { maximumFractionDigits: 0 }) ?? '—'}
             subtitle="Leads convertidos"
             icon={<EmojiEventsOutlinedIcon />}
-            color="#2E7D32"
+            color={theme.palette.success.main}
           />
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
@@ -87,7 +89,7 @@ export function DashboardPage() {
             value={`${stats.conversionRate.toFixed(1)}%`}
             subtitle="Taxa de fechamento"
             icon={<TrendingUpOutlinedIcon />}
-            color="#ED6C02"
+            color={theme.palette.warning.main}
           />
         </Grid>
       </Grid>
