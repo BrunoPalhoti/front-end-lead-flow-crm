@@ -1,4 +1,3 @@
-import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Alert,
   Box,
@@ -7,24 +6,16 @@ import {
   Stack,
   Typography,
 } from '@mui/material'
-import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { AuthLogo } from '@/components/auth/AuthLogo'
 import { SocialLoginButtons } from '@/components/auth/SocialLoginButtons'
 import { RHFTextField } from '@/components/form/RHFTextField'
-import { useLogin } from '@/hooks/useLogin'
-import { loginSchema, type LoginFormValues } from '@/schemas/auth.schema'
+import { useLogin } from '@/pages/login/hooks/useLogin'
+import { useLoginForm } from '@/pages/login/hooks/useLoginForm'
 
 export function LoginPage() {
   const login = useLogin()
-
-  const { control, handleSubmit } = useForm<LoginFormValues>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: {
-      email: '',
-      password: '',
-    },
-  })
+  const { control, handleSubmit } = useLoginForm()
 
   return (
     <Box component="form" onSubmit={handleSubmit((values) => login.mutate(values))}>

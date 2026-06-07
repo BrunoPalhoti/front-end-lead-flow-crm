@@ -1,4 +1,3 @@
-import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Alert,
   Button,
@@ -6,27 +5,17 @@ import {
   Stack,
   Typography,
 } from '@mui/material'
-import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { AuthLogo } from '@/components/auth/AuthLogo'
 import { SocialLoginButtons } from '@/components/auth/SocialLoginButtons'
 import { RHFTextField } from '@/components/form/RHFTextField'
-import { useRegister } from '@/hooks/useRegister'
-import { registerSchema, type RegisterFormValues } from '@/schemas/auth.schema'
+import { useRegister } from '@/pages/register/hooks/useRegister'
+import { useRegisterForm } from '@/pages/register/hooks/useRegisterForm'
 
 export function RegisterPage() {
   const navigate = useNavigate()
   const register = useRegister()
-
-  const { control, handleSubmit } = useForm<RegisterFormValues>({
-    resolver: zodResolver(registerSchema),
-    defaultValues: {
-      name: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-    },
-  })
+  const { control, handleSubmit } = useRegisterForm()
 
   return (
     <Stack
