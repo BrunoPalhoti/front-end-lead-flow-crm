@@ -12,40 +12,18 @@ import {
   Typography,
   useTheme,
 } from '@mui/material'
-import { useMemo } from 'react'
 import { LeadStatusChip } from '@/components/leads/LeadStatusChip'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { PageLoader } from '@/components/ui/PageLoader'
 import { StatCard } from '@/components/ui/StatCard'
-import { useLeads } from '@/hooks/useLeads'
-import { FUNNEL_STAGES, type LeadStage } from '@/types'
+import { useDashboardStats } from '@/pages/dashboard/hooks/useDashboardStats'
+import { FUNNEL_STAGES } from '@/types'
 import { formatCurrency } from '@/utils/formatCurrency'
 import { getLeadSubtitle } from '@/utils/lead'
 
 export function DashboardPage() {
   const theme = useTheme()
-  const { data: leads = [], isLoading } = useLeads()
-
-  const stats = useMemo(() => {
-    const total = leads.length
-    const won = leads.filter((lead) => lead.stage === 'won')
-    const pipeline = leads.filter(
-      (lead) => lead.stage !== 'won' && lead.stage !== 'lost',
-    )
-    const pipelineValue = pipeline.reduce((sum, lead) => sum + (lead.value ?? 0), 0)
-    const wonValue = won.reduce((sum, lead) => sum + (lead.value ?? 0), 0)
-    const conversionRate = total > 0 ? (won.length / total) * 100 : 0
-
-    const byStage = FUNNEL_STAGES.reduce<Record<LeadStage, number>>(
-      (acc, stage) => {
-        acc[stage] = leads.filter((lead) => lead.stage === stage).length
-        return acc
-      },
-      {} as Record<LeadStage, number>,
-    )
-
-    return { total, pipelineValue, wonValue, conversionRate, byStage }
-  }, [leads])
+  const { stats, leads, isLoading } = useDashboardStats()
 
   if (isLoading) {
     return <PageLoader />
