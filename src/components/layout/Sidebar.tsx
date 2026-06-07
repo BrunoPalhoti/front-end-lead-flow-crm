@@ -17,6 +17,11 @@ import {
 import { useUiStore } from '@/store/uiStore'
 
 const DRAWER_WIDTH = 260
+export const SIDEBAR_MENU_BUTTON_ID = 'sidebar-menu-button'
+
+function focusSidebarMenuButton() {
+  document.getElementById(SIDEBAR_MENU_BUTTON_ID)?.focus()
+}
 
 const navItems = [
   { label: 'Dashboard', path: '/', icon: <DashboardOutlinedIcon /> },
@@ -65,7 +70,10 @@ export function Sidebar() {
             to={item.path}
             end={item.path === '/'}
             onClick={() => {
-              if (isMobile) setSidebarOpen(false)
+              if (isMobile) {
+                focusSidebarMenuButton()
+                setSidebarOpen(false)
+              }
             }}
             sx={{
               borderRadius: 2,
@@ -90,7 +98,10 @@ export function Sidebar() {
       <Drawer
         variant="temporary"
         open={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
+        onClose={() => {
+          focusSidebarMenuButton()
+          setSidebarOpen(false)
+        }}
         ModalProps={{ keepMounted: true }}
         sx={{
           '& .MuiDrawer-paper': {
