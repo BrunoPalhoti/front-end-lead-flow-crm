@@ -9,11 +9,12 @@ import {
 } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useAuthStore } from '@/store/authStore'
+import { SIDEBAR_MENU_BUTTON_ID } from '@/components/layout/Sidebar'
 import { useUiStore } from '@/store/uiStore'
 
 export function Header() {
   const navigate = useNavigate()
-  const { toggleSidebar } = useUiStore()
+  const { sidebarOpen, toggleSidebar } = useUiStore()
   const { user, logout } = useAuthStore()
 
   function handleLogout() {
@@ -33,7 +34,14 @@ export function Header() {
       }}
     >
       <Toolbar>
-        <IconButton edge="start" onClick={toggleSidebar} sx={{ mr: 1 }}>
+        <IconButton
+          id={SIDEBAR_MENU_BUTTON_ID}
+          edge="start"
+          onClick={toggleSidebar}
+          aria-label={sidebarOpen ? 'Fechar menu' : 'Abrir menu'}
+          aria-expanded={sidebarOpen}
+          sx={{ mr: 1 }}
+        >
           <MenuIcon />
         </IconButton>
 

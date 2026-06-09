@@ -10,40 +10,20 @@ import {
   LinearProgress,
   Stack,
   Typography,
+  useTheme,
 } from '@mui/material'
-import { useMemo } from 'react'
 import { LeadStatusChip } from '@/components/leads/LeadStatusChip'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { PageLoader } from '@/components/ui/PageLoader'
 import { StatCard } from '@/components/ui/StatCard'
-import { useLeads } from '@/hooks/useLeads'
-import { FUNNEL_STAGES, type LeadStage } from '@/types'
+import { useDashboardStats } from '@/pages/dashboard/hooks/useDashboardStats'
+import { FUNNEL_STAGES } from '@/types'
 import { formatCurrency } from '@/utils/formatCurrency'
 import { getLeadSubtitle } from '@/utils/lead'
 
 export function DashboardPage() {
-  const { data: leads = [], isLoading } = useLeads()
-
-  const stats = useMemo(() => {
-    const total = leads.length
-    const won = leads.filter((lead) => lead.stage === 'won')
-    const pipeline = leads.filter(
-      (lead) => lead.stage !== 'won' && lead.stage !== 'lost',
-    )
-    const pipelineValue = pipeline.reduce((sum, lead) => sum + (lead.value ?? 0), 0)
-    const wonValue = won.reduce((sum, lead) => sum + (lead.value ?? 0), 0)
-    const conversionRate = total > 0 ? (won.length / total) * 100 : 0
-
-    const byStage = FUNNEL_STAGES.reduce<Record<LeadStage, number>>(
-      (acc, stage) => {
-        acc[stage] = leads.filter((lead) => lead.stage === stage).length
-        return acc
-      },
-      {} as Record<LeadStage, number>,
-    )
-
-    return { total, pipelineValue, wonValue, conversionRate, byStage }
-  }, [leads])
+  const theme = useTheme()
+  const { stats, leads, isLoading } = useDashboardStats()
 
   if (isLoading) {
     return <PageLoader />
@@ -60,7 +40,7 @@ export function DashboardPage() {
             value={String(stats.total)}
             subtitle="Cadastrados no CRM"
             icon={<PeopleAltOutlinedIcon />}
-            color="#1565C0"
+            color={theme.palette.primary.main}
           />
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
@@ -69,7 +49,7 @@ export function DashboardPage() {
             value={formatCurrency(stats.pipelineValue, { maximumFractionDigits: 0 }) ?? '—'}
             subtitle="Valor em negociação"
             icon={<AttachMoneyOutlinedIcon />}
-            color="#00897B"
+            color={theme.palette.secondary.main}
           />
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
@@ -78,7 +58,7 @@ export function DashboardPage() {
             value={formatCurrency(stats.wonValue, { maximumFractionDigits: 0 }) ?? '—'}
             subtitle="Leads convertidos"
             icon={<EmojiEventsOutlinedIcon />}
-            color="#2E7D32"
+            color={theme.palette.success.main}
           />
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
@@ -87,7 +67,7 @@ export function DashboardPage() {
             value={`${stats.conversionRate.toFixed(1)}%`}
             subtitle="Taxa de fechamento"
             icon={<TrendingUpOutlinedIcon />}
-            color="#ED6C02"
+            color={theme.palette.warning.main}
           />
         </Grid>
       </Grid>
