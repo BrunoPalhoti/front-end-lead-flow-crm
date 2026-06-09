@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import { Header } from "@/shared/components/Header";
-import { Sidebar } from "@/shared/components/Sidebar";
+import { Sidebar } from "@/shared/components";
 import { useUiStore } from "@/store/uiStore";
 
 export function MainLayout() {

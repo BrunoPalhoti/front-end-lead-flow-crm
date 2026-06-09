@@ -3,7 +3,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { AppBar, Box, IconButton, Toolbar, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/store/authStore";
-import { SIDEBAR_MENU_BUTTON_ID } from "@/shared/components/Sidebar";
+import { SIDEBAR_MENU_BUTTON_ID } from "@/shared/components";
 import { useUiStore } from "@/store/uiStore";
 
 export function Header() {
