@@ -1,1 +1,1 @@
-export { AppRouter } from '@/routes/AppRouter'
+export { AppRouter } from "@/lib/router/AppRouter";
