@@ -6,7 +6,7 @@ import { FunnelPage } from "@/features/funnel/pages/FunnelPage";
 import { LeadsPage } from "@/features/leads/pages/LeadsPage";
 import { LoginPage } from "@/features/auth/pages/LoginPage";
 import { RegisterPage } from "@/features/auth/pages/RegisterPage";
-import { GuestRoute, ProtectedRoute } from "@/lib/router/ProtectedRoute";
+import { GuestRoute, ProtectedRoute } from "@/routes/ProtectedRoute";
 
 export function AppRouter() {
   return (
