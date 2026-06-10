@@ -23,3 +23,5 @@ export function AuthLogo() {
     </Box>
   );
 }
+
+export default AuthLogo;

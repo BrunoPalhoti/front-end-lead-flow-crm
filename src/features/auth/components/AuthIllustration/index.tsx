@@ -144,3 +144,5 @@ export function AuthIllustration() {
     </Box>
   );
 }
+
+export default AuthIllustration;
