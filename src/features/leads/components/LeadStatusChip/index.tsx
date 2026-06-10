@@ -29,3 +29,5 @@ export function LeadStatusChip({ stage }: LeadStatusChipProps) {
     />
   );
 }
+
+export default LeadStatusChip;

@@ -170,3 +170,5 @@ export function LeadFormDialog({
     </Dialog>
   );
 }
+
+export default LeadFormDialog;
