@@ -83,3 +83,5 @@ export function SocialLoginButtons({ dividerText }: SocialLoginButtonsProps) {
     </Box>
   );
 }
+
+export default SocialLoginButtons;

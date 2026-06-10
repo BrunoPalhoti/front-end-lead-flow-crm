@@ -83,3 +83,5 @@ export function LeadsDataGrid({
     </Box>
   );
 }
+
+export default LeadsDataGrid;
