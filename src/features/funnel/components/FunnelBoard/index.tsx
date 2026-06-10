@@ -140,3 +140,5 @@ export function FunnelBoard({ leads }: FunnelBoardProps) {
     </Box>
   );
 }
+
+export default FunnelBoard;
