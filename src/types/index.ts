@@ -13,10 +13,17 @@ export interface Lead {
   email: string
   phone?: string
   company?: string
+  cnpj?: string
   stage: LeadStage
   value?: number
   assignedToId?: string
   notes?: string
+  role?: string
+  origin?: string
+  probability?: number
+  expectedAt?: string
+  tags?: string[]
+  activities?: { title: string; date?: string; userInitials?: string }[]
   createdAt: string
   updatedAt: string
 }
@@ -30,6 +37,13 @@ export interface CreateLeadPayload {
   value?: number
   assignedToId?: string
   notes?: string
+  cnpj?: string
+  role?: string
+  origin?: string
+  probability?: number
+  expectedAt?: string
+  tags?: string[]
+  activities?: { title: string; date?: string; userInitials?: string }[]
 }
 
 export interface UpdateLeadPayload extends Partial<CreateLeadPayload> {

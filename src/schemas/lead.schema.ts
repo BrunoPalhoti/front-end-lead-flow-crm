@@ -8,9 +8,16 @@ export const leadSchema = z.object({
   email: z.email('E-mail inválido'),
   phone: z.string().optional(),
   company: z.string().optional(),
+  cnpj: z.string().optional(),
+  role: z.string().optional(),
+  origin: z.string().optional(),
   stage: z.enum(leadStages),
   value: z.number().min(0, 'Valor deve ser positivo').optional(),
   assignedToId: z.string().optional(),
+  probability: z.number().min(0, 'Probabilidade inválida').max(100, 'Probabilidade inválida').optional(),
+  expectedAt: z.string().optional(),
+  tags: z.array(z.string()).optional(),
+  activities: z.array(z.object({ title: z.string(), date: z.string().optional(), userInitials: z.string().optional() })).optional(),
   notes: z.string().optional(),
 })
 
