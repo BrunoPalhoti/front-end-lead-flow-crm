@@ -1,6 +1,6 @@
 import AddIcon from "@mui/icons-material/Add";
-import { Box, Button, Typography } from "@mui/material";
-import { useCallback, useState, useEffect } from "react";
+import { Box, Button } from "@mui/material";
+import { useCallback, useMemo, useState } from "react";
 import { PageHeader } from "@/shared/components/PageHeader";
 import { useCreateLead } from "@/features/leads/hooks/useCreateLead";
 import { useLeads } from "@/features/leads/hooks/useLeads";
@@ -19,29 +19,31 @@ export function LeadsPage() {
   const updateLead = useUpdateLead();
 
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
-  const usersMap = new Map((users ?? []).map((u) => [u.id, u.name]));
+  const [selectedLeadId, setSelectedLeadId] = useState<string | null | undefined>(
+    undefined,
+  );
 
-  // selecionar primeiro lead por padrão quando carregarem
-  useEffect(() => {
-    if (!selectedLead && leads && leads.length > 0) {
-      setSelectedLead(leads[0]);
+  const selectedLead = useMemo(() => {
+    if (selectedLeadId === null) return null;
+    if (selectedLeadId) {
+      return leads.find((l) => l.id === selectedLeadId) ?? null;
     }
-  }, [leads]);
+    return leads[0] ?? null;
+  }, [leads, selectedLeadId]);
 
   const handleEdit = useCallback((lead: Lead) => {
-    setSelectedLead(lead);
+    setSelectedLeadId(lead.id);
     setDialogOpen(true);
   }, []);
 
   const handleOpenCreate = useCallback(() => {
-    setSelectedLead(null);
+    setSelectedLeadId(null);
     setDialogOpen(true);
   }, []);
 
   const handleCloseDialog = useCallback(() => {
     setDialogOpen(false);
-    setSelectedLead(null);
+    setSelectedLeadId(null);
   }, []);
 
   async function handleSubmit(values: CreateLeadPayload) {
@@ -69,7 +71,7 @@ export function LeadsPage() {
       await createLead.mutateAsync(payload);
     }
 
-    setSelectedLead(null);
+    setSelectedLeadId(null);
   }
 
   return (
@@ -96,7 +98,7 @@ export function LeadsPage() {
             users={users}
             isLoading={isLoading}
             selectedLeadId={selectedLead?.id ?? null}
-            onSelect={(lead) => setSelectedLead(lead)}
+            onSelect={(lead) => setSelectedLeadId(lead.id)}
             onEdit={handleEdit}
           />
         </Box>
