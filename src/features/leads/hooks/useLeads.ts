@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { leadsApi } from '@/features/leads/services/leads.api'
+import { leadsApi } from '@/features/leads/hooks/leads.api'
 
 export const LEADS_QUERY_KEY = ['leads'] as const
 
