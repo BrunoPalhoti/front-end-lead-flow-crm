@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Autocomplete,
   Box,
@@ -24,7 +23,7 @@ interface Props {
   responsible?: User;
 }
 
-export default function LeadFields({
+export function LeadFields({
   currentLead,
   form,
   setForm,
@@ -269,3 +268,5 @@ export default function LeadFields({
     </Box>
   );
 }
+
+export default LeadFields;

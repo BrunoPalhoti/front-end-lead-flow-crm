@@ -1,4 +1,3 @@
-import React from "react";
 import { Avatar, Box, IconButton, Stack, Typography } from "@mui/material";
 import PhoneIcon from "@mui/icons-material/Phone";
 import EmailIcon from "@mui/icons-material/Email";
@@ -12,7 +11,7 @@ interface Props {
   initials: string;
 }
 
-export default function LeadHeader({ lead, users, initials }: Props) {
+export function LeadHeader({ lead, users, initials }: Props) {
   return (
     <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
       <Avatar sx={{ width: 64, height: 64 }}>{initials}</Avatar>
@@ -62,3 +61,5 @@ export default function LeadHeader({ lead, users, initials }: Props) {
     </Box>
   );
 }
+
+export default LeadHeader;

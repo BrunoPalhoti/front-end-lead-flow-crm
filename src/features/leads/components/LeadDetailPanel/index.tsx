@@ -10,10 +10,10 @@ import {
   Alert,
 } from "@mui/material";
 import { useMemo, useState } from "react";
-import type { LeadDetailPanelProps } from "@/features/leads/types";
-import LeadHeader from "./LeadHeader/LeadHeader";
-import LeadFields from "./LeadFields/LeadFields";
-import LeadActivities from "./LeadActivities/LeadActivities";
+import type { LeadDetailPanelProps } from "@/features/leads/types/componentTypes";
+import { LeadHeader } from "@/features/leads/components/LeadHeader";
+import { LeadFields } from "@/features/leads/components/LeadFields";
+import { LeadActivities } from "@/features/leads/components/LeadActivities";
 import { useLeads } from "@/features/leads/hooks/useLeads";
 import { useAuthStore } from "@/store/authStore";
 import { useLeadForm } from "@/features/leads/hooks/useLeadForm";
@@ -32,7 +32,7 @@ export function LeadDetailPanel({ lead, users }: LeadDetailPanelProps) {
   }, [leads]);
 
   const { form, setForm, isEditing, setIsEditing } = useLeadForm(lead);
-  const { saveLead, saveLeadFromForm } = useLeadActions();
+  const { saveLeadFromForm } = useLeadActions();
 
   const [showConfirm, setShowConfirm] = useState(false);
   const [snack, setSnack] = useState<{
@@ -79,11 +79,6 @@ export function LeadDetailPanel({ lead, users }: LeadDetailPanelProps) {
     setShowConfirm(false);
     const now = new Date().toISOString();
     const initials = getUserInitials();
-
-    const nextActivities = [
-      ...(currentLead.activities ?? []),
-      { title: "Lead atualizado", date: now, userInitials: initials },
-    ];
 
     try {
       await saveLeadFromForm(form, currentLead, {

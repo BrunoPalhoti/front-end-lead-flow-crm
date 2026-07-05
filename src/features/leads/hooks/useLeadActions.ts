@@ -1,5 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { leadsApi } from "@/features/leads/services/leads.api";
+import { leadsApi } from "@/features/leads/hooks/leads.api";
 import { LEADS_QUERY_KEY } from "@/features/leads/hooks/useLeads";
 import type { UpdateLeadPayload, Lead } from "@/types";
 

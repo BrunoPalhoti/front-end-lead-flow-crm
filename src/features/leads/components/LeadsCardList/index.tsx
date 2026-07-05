@@ -11,7 +11,7 @@ import { formatCurrency } from "@/utils/formatCurrency";
 import { LeadStatusChip } from "@/features/leads/components/LeadStatusChip";
 import type { Lead, User } from "@/types";
 
-interface LeadsCardListProps {
+interface Props {
   leads: Lead[];
   users: User[];
   isLoading: boolean;
@@ -27,7 +27,7 @@ export function LeadsCardList({
   selectedLeadId,
   onSelect,
   onEdit,
-}: LeadsCardListProps) {
+}: Props) {
   const usersMap = new Map(users.map((u) => [u.id, u.name]));
 
   return (

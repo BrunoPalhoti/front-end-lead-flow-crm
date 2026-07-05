@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Avatar,
   Box,
@@ -16,7 +15,7 @@ interface Props {
   currentLead: Lead;
 }
 
-export default function LeadActivities({
+export function LeadActivities({
   activities,
   initials,
   currentLead,
@@ -65,3 +64,5 @@ export default function LeadActivities({
     </Box>
   );
 }
+
+export default LeadActivities;
