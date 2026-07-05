@@ -29,7 +29,7 @@ export function RecentLeads({ leads }: RecentLeadsProps) {
                   {lead.name}
                 </Typography>
                 <Typography variant="caption" color="text.secondary">
-                  {getLeadSubtitle(lead as any)}
+                  {getLeadSubtitle(lead)}
                 </Typography>
               </Box>
               <LeadStatusChip stage={lead.stage} />
