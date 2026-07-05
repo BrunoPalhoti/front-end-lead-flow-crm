@@ -134,7 +134,7 @@ function loadDb(): MockDatabase {
   const raw = localStorage.getItem(STORAGE_KEY)
 
   if (raw) {
-    const parsed = JSON.parse(raw) as any
+    const parsed = JSON.parse(raw) as MockDatabase & { __mockVersion?: string }
 
     // se versão do mock mudou, sobrescreve com seeds atuais
     if (parsed.__mockVersion !== MOCK_DB_VERSION) {
@@ -144,7 +144,7 @@ function loadDb(): MockDatabase {
     }
 
     // normalizar leads existentes preenchendo campos novos quando ausentes
-    const normalizedLeads = parsed.leads.map((lead: any) => ({
+    const normalizedLeads = parsed.leads.map((lead: Lead) => ({
       cnpj: undefined,
       role: undefined,
       origin: undefined,

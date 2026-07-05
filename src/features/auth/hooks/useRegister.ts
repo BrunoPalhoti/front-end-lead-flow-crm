@@ -1,15 +1,6 @@
-import { useMutation } from '@tanstack/react-query'
-import { authApi } from '@/features/auth/services/auth.api'
-import { useAuthStore } from '@/store/authStore'
-import type { RegisterPayload } from '@/types/auth'
+import { authApi } from "@/features/auth/api/auth.api";
+import { useAuthMutation } from "@/features/auth/hooks/useAuthMutation";
 
 export function useRegister() {
-  const setAuth = useAuthStore((state) => state.setAuth)
-
-  return useMutation({
-    mutationFn: (payload: RegisterPayload) => authApi.register(payload),
-    onSuccess: (data) => {
-      setAuth(data.token, data.user)
-    },
-  })
+  return useAuthMutation(authApi.register);
 }

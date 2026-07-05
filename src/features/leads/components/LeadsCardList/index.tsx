@@ -8,7 +8,9 @@ import {
   Typography,
 } from "@mui/material";
 import { formatCurrency } from "@/utils/formatCurrency";
+import { getUserName } from "@/utils/lead";
 import { LeadStatusChip } from "@/features/leads/components/LeadStatusChip";
+import { LeadSummary } from "@/features/leads/components/LeadSummary";
 import type { Lead, User } from "@/types";
 
 interface Props {
@@ -28,92 +30,82 @@ export function LeadsCardList({
   onSelect,
   onEdit,
 }: Props) {
-  const usersMap = new Map(users.map((u) => [u.id, u.name]));
-
   return (
     <Box>
       <Stack spacing={2}>
         {isLoading ? (
-          <Box>
-            <Typography>Carregando...</Typography>
-          </Box>
+          <Typography>Carregando...</Typography>
         ) : leads.length === 0 ? (
-          <Box>
-            <Typography>Nenhum lead encontrado.</Typography>
-          </Box>
+          <Typography>Nenhum lead encontrado.</Typography>
         ) : (
           leads.map((lead) => {
             const isSelected = selectedLeadId === lead.id;
+
             return (
-              <Box key={lead.id}>
-                <Card
-                  sx={{
-                    cursor: "pointer",
-                    display: "flex",
-                    flexDirection: "column",
-                    border: isSelected
-                      ? (theme) => `2px solid ${theme.palette.primary.main}`
-                      : undefined,
-                    bgcolor: isSelected ? "action.selected" : undefined,
-                  }}
-                  onClick={() => onSelect(lead)}
-                  role="button"
-                  aria-label={`Selecionar lead ${lead.name}`}
-                >
-                  <CardContent>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "flex-start",
-                        gap: 1,
-                      }}
-                    >
-                      <Box>
-                        <Typography variant="h6">{lead.name}</Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {lead.company ?? "—"}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {lead.email}
-                        </Typography>
-                      </Box>
-                      <Box sx={{ textAlign: "right" }}>
-                        <Typography variant="subtitle2">
-                          {usersMap.get(lead.assignedToId ?? "") ?? "—"}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {formatCurrency(lead.value)}
-                        </Typography>
-                      </Box>
+              <Card
+                key={lead.id}
+                sx={{
+                  cursor: "pointer",
+                  display: "flex",
+                  flexDirection: "column",
+                  border: isSelected
+                    ? (theme) => `2px solid ${theme.palette.primary.main}`
+                    : undefined,
+                  bgcolor: isSelected ? "action.selected" : undefined,
+                }}
+                onClick={() => onSelect(lead)}
+                role="button"
+                aria-label={`Selecionar lead ${lead.name}`}
+              >
+                <CardContent>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "flex-start",
+                      gap: 1,
+                    }}
+                  >
+                    <LeadSummary
+                      lead={lead}
+                      nameVariant="h6"
+                      subtitleVariant="body2"
+                    />
+                    <Box sx={{ textAlign: "right" }}>
+                      <Typography variant="subtitle2">
+                        {getUserName(users, lead.assignedToId)}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {formatCurrency(lead.value)}
+                      </Typography>
                     </Box>
-
-                    <Box
-                      sx={{
-                        mt: 1,
-                        display: "flex",
-                        gap: 1,
-                        alignItems: "center",
-                      }}
-                    >
-                      <LeadStatusChip stage={lead.stage} />
-                    </Box>
-                  </CardContent>
-
-                  <Box sx={{ p: 1 }}>
-                    <Button
-                      size="small"
-                      startIcon={<EditOutlinedIcon />}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onEdit(lead);
-                      }}
-                    >
-                      Editar
-                    </Button>
                   </Box>
-                </Card>
-              </Box>
+
+                  <Box
+                    sx={{
+                      mt: 1,
+                      display: "flex",
+                      gap: 1,
+                      alignItems: "center",
+                    }}
+                  >
+                    <LeadStatusChip stage={lead.stage} />
+                  </Box>
+                </CardContent>
+
+                <Box sx={{ p: 1 }}>
+                  <Button
+                    size="small"
+                    startIcon={<EditOutlinedIcon />}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      onEdit(lead);
+                    }}
+                  >
+                    Editar
+                  </Button>
+                </Box>
+              </Card>
             );
           })
         )}

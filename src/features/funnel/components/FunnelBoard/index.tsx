@@ -1,37 +1,21 @@
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 import { Box, Card, CardContent, Chip, Stack, Typography } from "@mui/material";
-import { useUpdateLead } from "@/features/leads/hooks/useUpdateLead";
+import { useFunnelDragDrop } from "@/features/funnel/hooks/useFunnelDragDrop";
+import { LeadSummary } from "@/features/leads/components/LeadSummary";
 import {
   FUNNEL_STAGES,
   LEAD_STAGE_LABELS,
   type Lead,
-  type LeadStage,
 } from "@/types";
+import { filterLeadsByStage, sumLeadValues } from "@/utils/lead";
 import { formatCurrency } from "@/utils/formatCurrency";
-import { getLeadSubtitle } from "@/utils/lead";
 
 interface FunnelBoardProps {
   leads: Lead[];
 }
 
 export function FunnelBoard({ leads }: FunnelBoardProps) {
-  const updateLead = useUpdateLead();
-
-  function handleDragStart(event: React.DragEvent, leadId: string) {
-    event.dataTransfer.setData("leadId", leadId);
-    event.dataTransfer.effectAllowed = "move";
-  }
-
-  function handleDrop(event: React.DragEvent, stage: LeadStage) {
-    event.preventDefault();
-    const leadId = event.dataTransfer.getData("leadId");
-    if (!leadId) return;
-
-    const lead = leads.find((item) => item.id === leadId);
-    if (!lead || lead.stage === stage) return;
-
-    updateLead.mutate({ id: leadId, stage });
-  }
+  const { handleDragStart, handleDrop } = useFunnelDragDrop(leads);
 
   return (
     <Box
@@ -48,11 +32,8 @@ export function FunnelBoard({ leads }: FunnelBoardProps) {
       }}
     >
       {FUNNEL_STAGES.map((stage) => {
-        const stageLeads = leads.filter((lead) => lead.stage === stage);
-        const totalValue = stageLeads.reduce(
-          (sum, lead) => sum + (lead.value ?? 0),
-          0,
-        );
+        const stageLeads = filterLeadsByStage(leads, stage);
+        const totalValue = sumLeadValues(stageLeads);
 
         return (
           <Box
@@ -105,20 +86,7 @@ export function FunnelBoard({ leads }: FunnelBoardProps) {
                         sx={{ color: "text.disabled", mt: 0.25 }}
                       />
                       <Box sx={{ flex: 1, minWidth: 0 }}>
-                        <Typography
-                          variant="body2"
-                          sx={{ fontWeight: 600 }}
-                          noWrap
-                        >
-                          {lead.name}
-                        </Typography>
-                        <Typography
-                          variant="caption"
-                          color="text.secondary"
-                          noWrap
-                        >
-                          {getLeadSubtitle(lead)}
-                        </Typography>
+                        <LeadSummary lead={lead} noWrap />
                         {lead.value != null && (
                           <Typography
                             variant="caption"

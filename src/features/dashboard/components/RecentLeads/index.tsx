@@ -1,6 +1,6 @@
-import { Box, Card, CardContent, Stack, Typography } from "@mui/material";
+import { Card, CardContent, Stack, Typography } from "@mui/material";
 import { LeadStatusChip } from "@/features/leads/components/LeadStatusChip";
-import { getLeadSubtitle } from "@/utils/lead";
+import { LeadSummary } from "@/features/leads/components/LeadSummary";
 import type { RecentLeadsProps } from "@/features/dashboard/types/componentTypes";
 
 export function RecentLeads({ leads }: RecentLeadsProps) {
@@ -24,14 +24,7 @@ export function RecentLeads({ leads }: RecentLeadsProps) {
                 alignItems: "center",
               }}
             >
-              <Box>
-                <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                  {lead.name}
-                </Typography>
-                <Typography variant="caption" color="text.secondary">
-                  {getLeadSubtitle(lead)}
-                </Typography>
-              </Box>
+              <LeadSummary lead={lead} />
               <LeadStatusChip stage={lead.stage} />
             </Stack>
           ))}

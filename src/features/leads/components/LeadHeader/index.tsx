@@ -3,15 +3,14 @@ import PhoneIcon from "@mui/icons-material/Phone";
 import EmailIcon from "@mui/icons-material/Email";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import type { Lead, User } from "@/types";
+import type { Lead } from "@/types";
 
 interface Props {
   lead: Lead;
-  users: User[];
   initials: string;
 }
 
-export function LeadHeader({ lead, users, initials }: Props) {
+export function LeadHeader({ lead, initials }: Props) {
   return (
     <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
       <Avatar sx={{ width: 64, height: 64 }}>{initials}</Avatar>

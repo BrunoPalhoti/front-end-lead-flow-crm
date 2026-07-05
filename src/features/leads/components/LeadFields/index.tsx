@@ -234,7 +234,7 @@ export function LeadFields({
                     : undefined,
                 }))
               }
-              {...({ InputLabelProps: { shrink: true } } as any)}
+              slotProps={{ inputLabel: { shrink: true } }}
             />
           )}
 
